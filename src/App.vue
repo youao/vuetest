@@ -1,28 +1,39 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" class="fmix-v">
+    <div id="main" class="flex-con">
+      <router-view />
+    </div>
+    <!-- <footer-nav v-show="footerShow" /> -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+// import FooterNav from "@/components/FooterNav";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    // FooterNav,
+  },
+  data() {
+    return {
+      footerShow: false,
+    };
+  },
+  watch: {
+    $route(to) {
+      const { footer } = to.meta;
+      this.footerShow = footer;
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  #app {
+    height: 100vh;
+    position: relative;
+  }
+  #main {
+    overflow-y: scroll;
+  }
 </style>
