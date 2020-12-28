@@ -13,7 +13,20 @@ import '@/utils/flexible.js'
 
 Vue.config.productionTip = false
 
-new Vue({
-    router,
-    render: h => h(App),
-}).$mount('#app')
+import app from './config';
+
+const init = () => {
+    new Vue({
+        router,
+        render: h => h(App),
+    }).$mount('#app')
+}
+
+if (app.$mode == 'app') {
+    window.apiready = () => {
+        init();
+        console.log(api.winHeight)
+    }
+} else {
+    init()
+}

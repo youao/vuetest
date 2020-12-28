@@ -7,12 +7,13 @@ const _config = {
 }
 axios.defaults.withCredentials = true;
 var instance = axios.create(_config);
-const defaultOpt = { login: false };
+const defaultOpt = { login: false, dataType: 'json' };
 
 function baseRequest(options) {
-    const { url, method, data, params, files } = options;
-    console.log(url)
     if (app.$mode == 'app') {
+        const { url, method, data, params, files, dataType } = options;
+        console.log(_config.baseURL + url);
+        console.log(JSON.stringify(params));
         return new Promise((resolve, reject) => {
             api.ajax({
                 url: _config.baseURL + url,
@@ -21,13 +22,15 @@ function baseRequest(options) {
                     values: method == 'get' ? params : data,
                     files
                 },
-                timeout: _config.timeout / 1000
-            }, (ret, err) => {
+                timeout: _config.timeout / 1000,
+            }, (ret) => {
+                console.log(JSON.stringify(ret))
+                // console.log(ret)
+                
                 if (ret) {
-                    console.log(JSON.stringify(ret))
-                    return resolve(ret);
+                    resolve(ret);
                 } else {
-                    return reject(err);
+                    reject(err);
                 }
             });
         })

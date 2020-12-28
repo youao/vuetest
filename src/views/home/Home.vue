@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1>{{msg}}</h1>
     <goods-water-fall-list :list="list" :col="col" />
     <van-loading
       v-show="loading && list.length"
@@ -37,6 +38,7 @@ export default {
       },
       loading: false,
       finished: false,
+      msg: 'hello'
     };
   },
   mounted: function () {
@@ -51,11 +53,18 @@ export default {
       if (this.loading || this.finished) return;
       this.loading = true;
       getHdkList(this.params).then((res) => {
+        console.log(JSON.stringify(res))
+        this.msg = JSON.stringify(res)
         let data = res.data || [];
         this.list.push.apply(this.list, data);
         this.loading = false;
         this.finished = data.length < this.params.pageSize;
         this.params.page++;
+      }).catch(err=>{
+        console.log(err)
+        console.log(JSON.stringify(err))
+        this.msg = JSON.stringify(err)
+
       });
     },
   },
