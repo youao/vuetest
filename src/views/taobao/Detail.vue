@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :class="is_pc ? 'pc' : ''">
+  <div class="container">
     <van-swipe :autoplay="3000" indicator-color="white">
       <van-swipe-item v-for="(item, index) in goods.imgs" :key="index">
         <img :src="item" />
@@ -68,7 +68,6 @@
 
     <div
       class="row fixed-foot fmix-center"
-      :class="is_pc ? 'pc' : ''"
       @click="getCoupon"
     >
       立即领券购买
@@ -79,8 +78,7 @@
 <script>
 import Vue from "vue";
 import { Swipe, SwipeItem } from "vant";
-import { getGoodsDetail, getCouponClickUrl } from "@/api/taobao";
-import { isPc } from "@/utils";
+// import { getGoodsDetail, getCouponClickUrl } from "@/api/taobao";
 
 Vue.use(Swipe);
 Vue.use(SwipeItem);
@@ -97,32 +95,31 @@ export default {
         goodsId: "",
       },
       couponUrl: "",
-      is_pc: isPc(),
     };
   },
   mounted: function () {
     let id = this.$route.params.id;
-    this.getDetail(id);
+    // this.getDetail(id);
   },
   methods: {
     getDetail(id) {
-      getGoodsDetail(id).then((res) => {
-        let data = res.data;
-        data.imgs = data.imgs ? data.imgs.split(",") : [data.mainPic];
-        data.detailPics && (data.detailPics = JSON.parse(data.detailPics));
-        this.goods = data;
-      });
+      // getGoodsDetail(id).then((res) => {
+      //   let data = res.data;
+      //   data.imgs = data.imgs ? data.imgs.split(",") : [data.mainPic];
+      //   data.detailPics && (data.detailPics = JSON.parse(data.detailPics));
+      //   this.goods = data;
+      // });
     },
 
     getCoupon() {
-      let gid = this.goods.goodsId;
-      if (this.couponUrl) {
-        return window.open(this.couponUrl);
-      }
-      getCouponClickUrl(gid).then((res) => {
-        this.couponUrl = res.data.couponClickUrl;
-        window.open(this.couponUrl);
-      });
+      // let gid = this.goods.goodsId;
+      // if (this.couponUrl) {
+      //   return window.open(this.couponUrl);
+      // }
+      // getCouponClickUrl(gid).then((res) => {
+      //   this.couponUrl = res.data.couponClickUrl;
+      //   window.open(this.couponUrl);
+      // });
     },
   },
 };
@@ -132,10 +129,6 @@ export default {
 .container {
   padding-bottom: 6rem;
   background: #f5f5f5;
-}
-.pc {
-  max-width: 750px;
-  margin: auto;
 }
 .row {
   background-color: #fff;
@@ -269,10 +262,5 @@ export default {
   z-index: 99;
   border-radius: 2.2rem;
   box-shadow: 0 0.2rem 0.2rem rgba(0, 0, 0, 0.3);
-  transition: background 0.5s;
-}
-
-.fixed-foot.success {
-  background: #00b26a;
 }
 </style>

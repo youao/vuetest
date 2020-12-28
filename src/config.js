@@ -15,6 +15,6 @@ const footer = [{
 
 export default {
     footer,
-    appName: '油菜花',
-    apiUrl: 'http://www.xiaoxishengqian.com/ych/api.php'
+    $mode: 'app',
+    $appName: '油菜花',
 }

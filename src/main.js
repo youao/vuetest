@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+
 import router from './router'
 import Router from 'vue-router'
 const originalPush = Router.prototype.push

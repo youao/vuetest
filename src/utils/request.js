@@ -1,34 +1,48 @@
 import axios from "axios";
 import app from "@/config";
-import { jsonToStr } from "@/utils";
-import Storages from "@/utils/storage";
-import md5 from "js-md5";
 
-axios.defaults.withCredentials = true;
-
-const instance = axios.create({
-    baseURL: app.apiUrl,
+const _config = {
+    baseURL: 'http://www.xiaoxishengqian.com/ych/api.php',
     timeout: 20000
-});
-
+}
+axios.defaults.withCredentials = true;
+var instance = axios.create(_config);
 const defaultOpt = { login: false };
 
 function baseRequest(options) {
-    return instance(options).then(res => {
-        const data = res.data || {};
-        if (res.status !== 200)
-            return Promise.reject({ msg: "请求失败", res, data });
-        if ([0].indexOf(data.status) !== -1) {
-            return Promise.reject({ msg: res.data.msg });
-        } else {
-            const { cache, method, url, params } = options;
-            if (cache && method == 'get') {
-                let key = getUrlCacheKey(url, params);
-                Storages.set(key, data, cache)
+    const { url, method, data, params, files } = options;
+    console.log(url)
+    if (app.$mode == 'app') {
+        return new Promise((resolve, reject) => {
+            api.ajax({
+                url: _config.baseURL + url,
+                method,
+                data: {
+                    values: method == 'get' ? params : data,
+                    files
+                },
+                timeout: _config.timeout / 1000
+            }, (ret, err) => {
+                if (ret) {
+                    console.log(JSON.stringify(ret))
+                    return resolve(ret);
+                } else {
+                    return reject(err);
+                }
+            });
+        })
+    } else {
+        return instance(options).then(res => {
+            const data = res.data || {};
+            if (res.status !== 200)
+                return Promise.reject({ msg: "请求失败", res, data });
+            if ([0].indexOf(data.status) !== -1) {
+                return Promise.reject(data);
+            } else {
+                return Promise.resolve(data);
             }
-            return Promise.resolve(data, res);
-        }
-    });
+        });
+    }
 }
 
 const request = ["post", "put", "patch"].reduce((request, method) => {
@@ -42,26 +56,10 @@ const request = ["post", "put", "patch"].reduce((request, method) => {
 
 ["get", "delete", "head"].forEach(method => {
     request[method] = (url, params = {}, options = {}) => {
-
-        const { cache } = options;
-        if (cache && method == 'get') {
-            let key = getUrlCacheKey(url, params);
-            let res = Storages.get(key);
-            if (res) return Promise.resolve(res);
-        }
-
         return baseRequest(
             Object.assign({ url, params, method }, defaultOpt, options)
         );
     };
 });
-
-function getUrlCacheKey(url, params) {
-    let cacheKey = jsonToStr({
-        base: app.apiUrl + url + '?',
-        data: params
-    });
-    return 'api_cache_' + md5(cacheKey);
-}
 
 export default request;

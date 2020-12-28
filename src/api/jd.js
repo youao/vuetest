@@ -1,3 +1,4 @@
+import request from "@utils/request";
 /**
  * 京粉精选商品查询接口
  * jd.union.open.goods.jingfen.query
