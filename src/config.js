@@ -15,6 +15,6 @@ const footer = [{
 
 export default {
     footer,
-    $mode: 'app',
+    $mode: 'h5',
     $appName: '油菜花',
 }

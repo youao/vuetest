@@ -48,7 +48,8 @@
             "no-debugger": "off"
         },
         "globals": {
-            "api": true
+            "api": true,
+            "os": true
         }
     },
     "browserslist": [

@@ -1,13 +1,20 @@
-import { isType } from "@/utils";
+import { isType, isAndroid } from "@/utils";
+import app from "@/config";
+
+function uzStorage() {
+    return isAndroid() && app.$mode == 'app' ? os.localStorage() : window.localStorage;
+};
+
+const ls = uzStorage();
 
 function get(key) {
-    let res = localStorage.getItem(key);
+    let res = ls.getItem(key);
     if (!res) {
         return null;
     }
     let obj = JSON.parse(res);
     if (obj.expirse && new Date().getTime() > obj.expirse) {
-        localStorage.removeItem(key);
+        ls.removeItem(key);
     } else {
         return obj.value;
     }
@@ -15,21 +22,21 @@ function get(key) {
 }
 
 function set(key, value, expirse) {
-    let obj = {value};
+    let obj = { value };
     if (typeof expirse == 'number') {
         obj.expirse = new Date().getTime() + expirse * 1000;
     } else if (isType(expirse, "Date")) {
         obj.expirse = expirse.getTime();
     }
-    localStorage.setItem(key, JSON.stringify(obj));
+    ls.setItem(key, JSON.stringify(obj));
 }
 
 function remove(key) {
-    localStorage.removeItem(key);
+    ls.removeItem(key);
 }
 
 function clearAll() {
-    localStorage.clear();
+    ls.clear();
 }
 
 export default {

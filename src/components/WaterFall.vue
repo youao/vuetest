@@ -4,6 +4,7 @@
       v-for="(item, index) in list"
       :key="index"
       :item="item"
+      :type="contpl"
       :class="[item.top ? 'show' : '', 'wf-con', conClass]"
       :style="{
         width: colW + 'px',
@@ -19,12 +20,13 @@ import GoodsCon from "@/components/GoodsCon";
 const dpr = window.devicePixelRatio;
 
 export default {
-  name: "GoodsWaterFallList",
+  name: "WaterFall",
   components: {
     GoodsCon,
   },
   props: {
     list: Array,
+    contpl: String,
     name: String,
     col: {
       type: Number,
@@ -32,11 +34,11 @@ export default {
     },
     space: {
       type: Number,
-      default: 10 * dpr,
+      default: 4 * dpr,
     },
     spaceBetween: {
       type: Number,
-      default: 10 * dpr,
+      default: 6 * dpr,
     },
   },
   data() {

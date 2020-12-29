@@ -8,7 +8,7 @@ body {
     line-height: 1.6;
     font-family: -apple-system, BlinkMacSystemFont, SF UI Text, Helvetica Neue, PingFang SC, Hiragino Sans GB, Microsoft YaHei UI, Microsoft YaHei, Arial, sans-serif;
     color: #222;
-    font-size: 14px;
+    background-color: #f5f5f5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -102,6 +102,11 @@ img {
     align-items: flex-end;
 }
 
+.flex-align-base {
+    -webkit-align-items: baseline;
+    align-items: baseline;
+}
+
 .flex-justify {
     -webkit-justify-content: center;
     justify-content: center;
@@ -156,20 +161,28 @@ img {
 }
 
 .fmix-align-sa {
-    @extend .flex-wrap;
+    @extend .fmix-align;
     @extend .flex-justify-sa;
-    @extend .flex-align;
 }
 
 .fmix-align-sb {
-    @extend .flex-wrap;
+    @extend .fmix-align;
     @extend .flex-justify-sb;
-    @extend .flex-align;
+}
+
+.fmix-align-end {
+    @extend .flex-wrap;
+    @extend .flex-align-end;
+}
+
+.fmix-align-base {
+    @extend .flex-wrap;
+    @extend .flex-align-base;
 }
 
 .fmix-vertical-sb {
     @extend .flex-wrap;
-    @extend .flex-justify-sa;
+    @extend .flex-justify-sb;
     @extend .flex-vertical;
 }
 

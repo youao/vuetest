@@ -25,7 +25,6 @@ const init = () => {
 if (app.$mode == 'app') {
     window.apiready = () => {
         init();
-        console.log(api.winHeight)
     }
 } else {
     init()

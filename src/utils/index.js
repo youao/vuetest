@@ -49,6 +49,10 @@ export function jsonToStr(ops) {
     return str + suffix;
 }
 
+export function getWanNum(num) {
+    return num > 1000 ? Math.round(num / 1000) / 10 + '万' : num;
+}
+
 /**
  * 监听滚动触底事件
  * @options[element]，监听滚动的元素，默认指向window
