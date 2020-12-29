@@ -1,7 +1,11 @@
 <template>
   <router-link :to="'/taobao/detail/' + item.itemid" class="goods">
     <div class="goods-img">
-      <img :src="item.itempic" alt="" />
+      <van-image
+        fit="contain"
+        lazy-load
+        :src="item.itempic"
+      />
       <i v-if="item.videoid > 0" class="iconfont v-play">&#xe614;</i>
     </div>
     <div class="goods-info">
@@ -41,6 +45,12 @@
 <script>
 import "@/assets/css/goods.scss";
 import { getWanNum } from "@/utils";
+import Vue from "vue";
+import { Image as VanImage } from "vant";
+import { Lazyload } from "vant";
+Vue.use(VanImage);
+Vue.use(Lazyload);
+
 export default {
   name: "HdkCon",
   props: {
