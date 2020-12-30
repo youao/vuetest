@@ -1,11 +1,6 @@
-import { isType, isAndroid } from "@/utils";
-import app from "@/config";
+import { isType } from "@/utils";
 
-function uzStorage() {
-    return isAndroid() && app.$mode == 'app' ? os.localStorage() : window.localStorage;
-};
-
-const ls = uzStorage();
+const ls = window.localStorage;
 
 function get(key) {
     let res = ls.getItem(key);

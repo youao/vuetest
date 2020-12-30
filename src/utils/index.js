@@ -49,6 +49,23 @@ export function jsonToStr(ops) {
     return str + suffix;
 }
 
+export function formatTime(time, frt) {
+    let date = time ? new Date(time) : new Date();
+    frt = (frt || 'Y-m-d h:i:s').toLowerCase();
+
+    return frt.replace(/y/g, date.getFullYear())
+        .replace(/m/g, formatNumber(date.getMonth() + 1))
+        .replace(/d/g, formatNumber(date.getDate()))
+        .replace(/h/g, formatNumber(date.getHours()))
+        .replace(/i/g, formatNumber(date.getMinutes()))
+        .replace(/s/g, formatNumber(date.getSeconds()))
+}
+
+export function formatNumber(n) {
+    n = n.toString()
+    return n[1] ? n : '0' + n
+}
+
 export function getWanNum(num) {
     return num > 1000 ? Math.round(num / 1000) / 10 + '万' : num;
 }
@@ -83,7 +100,7 @@ export function evScrollout(options) {
     elListener.addEventListener('scroll', function() {
         var clientH = isWinow ? element.clientHeight : element.offsetHeight;
         var scrollT = element.scrollTop;
-        var scrollH = element.scrollHeight;
+        var scrollH = Math.ceil(element.scrollHeight);
 
         if (!scrollT) return; // 滚动条高度为0时不触发
 

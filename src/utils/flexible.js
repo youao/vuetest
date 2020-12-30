@@ -7,7 +7,7 @@ import { isPc } from '@/utils';
         setBodyFs();
 
         function setBodyFs() {
-            d.body ? d.body.style.fontSize = fs * 1.4 + "px" : d.addEventListener("DOMContentLoaded", setBodyFs)
+            d.body ? (d.body.style.fontSize = fs * 1.4 + "px", isPc() && (d.body.style.maxWidth = '640px', d.body.style.margin = 'auto')) : d.addEventListener("DOMContentLoaded", setBodyFs)
         }
     }
 

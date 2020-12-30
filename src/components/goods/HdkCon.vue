@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="'/taobao/detail/' + item.itemid" class="goods">
+  <router-link :to="'/hdk/detail/' + item.itemid" class="goods">
     <div class="goods-img">
       <img :src="item.itempic" alt="" />
       <i v-if="item.videoid > 0" class="iconfont v-play">&#xe614;</i>

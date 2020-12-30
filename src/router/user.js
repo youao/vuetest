@@ -3,7 +3,9 @@ export default [{
     name: "User",
     meta: {
         title: "个人中心",
-        auth: true
+        auth: true,
+        footer: true,
+        keepAlive: true
     },
     component: () =>
         import ('@/views/user/User')

@@ -8,6 +8,8 @@ Router.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
 }
 
+import store from './store'
+
 import '@/assets/css/base.scss'
 import '@/utils/flexible.js'
 
@@ -17,6 +19,7 @@ import app from './config';
 
 const init = () => {
     new Vue({
+        store,
         router,
         render: h => h(App),
     }).$mount('#app')

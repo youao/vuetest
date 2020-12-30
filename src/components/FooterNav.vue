@@ -6,14 +6,27 @@
       :icon="item.icon"
       :title="item.title"
       :cls="item.path == active ? 'font-theme' : ''"
+      :style="{ 'padding-bottom': safeAreaBottom + 'px' }"
       @icon-item-tap="tapIcon(index)"
     />
   </div>
 </template>
 
 <script>
+const navs = [
+  {
+    path: "/",
+    title: "首页",
+    icon: "&#xe925;",
+  },
+  {
+    path: "/user",
+    title: "个人中心",
+    icon: "&#xe920;",
+  },
+];
+
 import IconItem from "@/components/IconItem";
-// import app from '../config';
 
 export default {
   name: "FooterNav",
@@ -22,16 +35,19 @@ export default {
   },
   data() {
     return {
-      active: 0,
-      // navs: app.footer,
-      navs: [],
-
+      active: "",
+      navs,
+      safeAreaBottom: 0,
     };
   },
   watch: {
     $route(to, from) {
       this.active = to.path;
-    }
+    },
+  },
+  created() {
+    let sa = this.$store.state.safeArea;
+    this.safeAreaBottom = sa.bottom;
   },
   methods: {
     tapIcon(e) {

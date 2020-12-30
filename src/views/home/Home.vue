@@ -1,15 +1,11 @@
 <template>
   <div class="container">
-    <water-fall :list="list" :contpl="'hdk'" />
+    <water-fall :list="list" contpl="hdk" />
     <list-bottom :loading="loading" :finished="finished" :size="list.length" />
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import { Loading } from "vant";
-Vue.use(Loading);
-
 import { getHdkList } from "@/api/hdk";
 import WaterFall from "@/components/WaterFall";
 import ListBottom from "@/components/ListBottom";
@@ -19,7 +15,7 @@ export default {
   name: "Home",
   components: {
     WaterFall,
-    ListBottom
+    ListBottom,
   },
   data() {
     return {
@@ -30,14 +26,17 @@ export default {
         cache: 900,
       },
       loading: false,
-      finished: false
+      finished: false,
     };
   },
-  mounted: function () {
+  mounted() {
     this.getList();
     evScrollout({
       element: ".container",
-      callback: this.getList,
+      callback: () => {
+        console.log("evScrollout");
+        this.getList();
+      },
     });
   },
   methods: {
