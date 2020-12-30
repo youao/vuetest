@@ -1,5 +1,5 @@
 <template>
-  <hdk-con v-if="type == 'hdk'" :item="item" />
+  <hdk-con v-if="type == 'hdk'" :item="item" :colW="colW" />
 </template>
 
 <script>
@@ -12,6 +12,7 @@ export default {
   props: {
     type: String,
     item: Object,
+    colW: Number
   },
   data() {
     return {};

@@ -5,6 +5,7 @@
       :key="index"
       :item="item"
       :type="contpl"
+      :colW="colW"
       :class="[item.top ? 'show' : '', 'wf-con', conClass]"
       :style="{
         width: colW + 'px',

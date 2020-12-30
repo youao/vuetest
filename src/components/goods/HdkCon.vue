@@ -1,11 +1,7 @@
 <template>
   <router-link :to="'/hdk/detail/' + item.itemid" class="goods">
-    <div class="goods-img">
-      <van-image
-        fit="contain"
-        lazy-load
-        :src="item.itempic"
-      />
+    <div class="goods-img" :style="{ height: colW + 'px' }">
+      <van-image fit="contain" lazy-load :src="item.itempic" />
       <i v-if="item.videoid > 0" class="iconfont v-play">&#xe614;</i>
     </div>
     <div class="goods-info">
@@ -55,6 +51,10 @@ export default {
   name: "HdkCon",
   props: {
     item: Object,
+    colW: {
+      type: Number,
+      default: 500,
+    },
   },
   data() {
     return {};
@@ -62,6 +62,7 @@ export default {
   created() {
     this.item.itemsale = getWanNum(this.item.itemsale);
   },
+  mounted() {},
   methods: {},
 };
 </script>
