@@ -42,8 +42,7 @@
 import "@/assets/css/goods.scss";
 import { getWanNum } from "@/utils";
 import Vue from "vue";
-import { Image as VanImage } from "vant";
-import { Lazyload } from "vant";
+import { Image as VanImage, Lazyload } from "vant";
 Vue.use(VanImage);
 Vue.use(Lazyload);
 

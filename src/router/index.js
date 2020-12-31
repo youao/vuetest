@@ -19,14 +19,6 @@ const routes = [{
     ...user,
     ...goods,
     {
-        path: '/taobao/detail/:id',
-        name: 'TaobaoDetail',
-        meta: {
-            title: '宝贝详情',
-        },
-        component: () =>
-            import ('@/views/taobao/Detail.vue')
-    }, {
         path: '*',
         name: 'Home',
         meta: {

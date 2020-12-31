@@ -11,6 +11,11 @@ import WaterFall from "@/components/WaterFall";
 import ListBottom from "@/components/ListBottom";
 import { evScrollout } from "@/utils";
 
+import Vue from "vue";
+import { Tab, Tabs } from "vant";
+Vue.use(Tab);
+Vue.use(Tabs);
+
 export default {
   name: "Home",
   components: {
@@ -21,6 +26,8 @@ export default {
     return {
       list: [],
       params: {
+        method: 'sales_list',
+        cid: 0,
         page: 1,
         pageSize: 10,
         cache: 900,
@@ -34,7 +41,6 @@ export default {
     evScrollout({
       element: ".container",
       callback: () => {
-        console.log("evScrollout");
         this.getList();
       },
     });

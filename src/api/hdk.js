@@ -14,3 +14,15 @@ export function getHdkDetail(id) {
 export function getHdkClick(id) {
     return request.get("/hdk/ratesurl", { id });
 }
+
+export function getHdkHotKey() {
+    return request.get("/hdk/hotkey", {}, { cache: 3600 });
+}
+
+export function getHdkCat() {
+    return request.get("/hdk/cat", {}, { cache: 3600 });
+}
+
+export function getHdkSearch(data) {
+    return request.get("/hdk/search", data, { cache: 60 });
+}
