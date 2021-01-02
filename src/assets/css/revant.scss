@@ -1,0 +1,15 @@
+.van-tabs--line .van-tabs__wrap {
+    height: 4rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.van-tabs__wrap--scrollable .van-tab {
+    font-size: 1.4rem;
+    padding: 0 1.2rem;
+}
+
+#hourlist .van-tabs--line .van-tabs__wrap {
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+}

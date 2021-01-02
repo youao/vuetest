@@ -60,7 +60,9 @@ export default {
 
 <style scoped>
 .footer {
-  border-top: 1px solid #eee;
   height: 5rem;
+  border-top: 1px solid #eee;
+  box-sizing: border-box;
+  background: #fff;
 }
 </style>

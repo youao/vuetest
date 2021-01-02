@@ -70,6 +70,13 @@ export function getWanNum(num) {
     return num > 1000 ? Math.round(num / 1000) / 10 + '万' : num;
 }
 
+export function getObjItemByKey(arr, key, val) {
+    for (let i = 0, ln = arr.length; i < ln; i++) {
+        if (arr[i][key] == val) return arr[i];
+    }
+    return null
+}
+
 /**
  * 监听滚动触底事件
  * @options[element]，监听滚动的元素，默认指向window

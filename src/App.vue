@@ -28,7 +28,7 @@ export default {
       const { footer, keepAlive } = to.meta;
 
       this.footerShow = footer;
-      
+
       if (keepAlive && !this.include.includes(to.name)) {
         this.include.push(to.name);
       }
@@ -46,6 +46,7 @@ export default {
   position: relative;
 }
 #main {
-  overflow-y: scroll;
+  position: relative;
+  overflow-y: hidden;
 }
 </style>

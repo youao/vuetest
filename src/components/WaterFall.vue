@@ -1,5 +1,5 @@
 <template>
-  <div class="waterfall" :style="{ height: wfHeight + 'px' }">
+  <div class="waterfall" ref="con" :style="{ height: wfHeight + 'px' }">
     <goods-con
       v-for="(item, index) in list"
       :key="index"
@@ -55,7 +55,7 @@ export default {
     },
   },
   mounted: function () {
-    let container = document.getElementsByClassName("waterfall")[0];
+    let container = this.$refs.con;
     let conW = (container || document.body).offsetWidth;
     const { col, space, spaceBetween } = this;
     this.colW = (conW - spaceBetween * 2 - (col - 1) * space) / col;

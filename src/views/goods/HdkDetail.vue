@@ -90,13 +90,8 @@
 </template>
 
 <script>
-import Vue from "vue";
-import { Swipe, SwipeItem } from "vant";
 import { getHdkDetail, getHdkClick } from "@/api/hdk";
 import { formatTime } from "@/utils";
-
-Vue.use(Swipe);
-Vue.use(SwipeItem);
 
 export default {
   name: "HdkDetail",

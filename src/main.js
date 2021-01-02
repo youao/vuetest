@@ -10,6 +10,12 @@ Router.prototype.push = function push(location) {
 
 import store from './store'
 
+import Vant from 'vant'
+import 'vant/lib/index.css'
+import '@/assets/css/revant.scss'
+
+Vue.use(Vant)
+
 import '@/assets/css/base.scss'
 import '@/utils/flexible.js'
 
