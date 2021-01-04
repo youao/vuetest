@@ -1,5 +1,7 @@
+const env = process.env.NODE_ENV;
+
 module.exports = {
-    publicPath: '/',
+    publicPath: env == 'production' ? '' : '/',
     chainWebpack: config => {
         const oneOfsMap = config.module.rule('scss').oneOfs.store
         oneOfsMap.forEach(item => {

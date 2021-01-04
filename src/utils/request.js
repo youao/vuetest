@@ -1,11 +1,10 @@
 import axios from "axios";
-import app from "@/config";
 import $storage from "@/utils/storage";
 import { jsonToStr } from "@/utils";
 import md5 from "js-md5";
 
 const _config = {
-    baseURL: 'http://www.xiaoxishengqian.com/ych/api.php',
+    baseURL: process.env.VUE_APP_APIURL,
     timeout: 20000
 }
 axios.defaults.withCredentials = true;
@@ -14,7 +13,7 @@ const defaultOpt = { login: false };
 
 function baseRequest(options) {
     const { url, method, params, data, cache, files } = options;
-    if (app.$mode == 'app') {
+    if (process.env.VUE_APP_MODE == 'app') {
         return new Promise((resolve, reject) => {
             api.ajax({
                 url: _config.baseURL + url,

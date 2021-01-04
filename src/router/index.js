@@ -5,23 +5,17 @@ import goods from "./goods";
 
 Vue.use(Router);
 
-const routes = [{
-        path: '/',
-        name: 'Home',
-        meta: {
-            title: '首页',
-            keepAlive: true
-        },
-        component: () =>
-            import ('@/views/home/Home')
-    },
+const routes = [
     ...user,
     ...goods,
     {
         path: '*',
-        name: 'NotDefined',
+        name: 'Home',
+        meta: {
+            keepAlive: true
+        },
         component: () =>
-            import ('@/views/404')
+            import ('@/views/home/Home')
     }
 ];
 
@@ -36,7 +30,7 @@ router.beforeEach((to, from, next) => {
         console.log('app index')
         next('/');
     }
-    title && (document.title = title);
+    document.title = title || process.env.VUE_APP_NAME;
     next();
 });
 

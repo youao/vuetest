@@ -21,7 +21,7 @@ import '@/utils/flexible.js'
 
 Vue.config.productionTip = false
 
-import app from './config';
+console.log(process.env)
 
 const init = () => {
     new Vue({
@@ -31,7 +31,7 @@ const init = () => {
     }).$mount('#app')
 }
 
-if (app.$mode == 'app') {
+if (process.env.VUE_APP_MODE == 'app') {
     window.apiready = () => {
         init();
     }

@@ -10,7 +10,7 @@ export default [{
     path: '/hdk/channel/:id',
     name: 'HdkChannel',
     meta: {
-        keepAlive: true
+        // keepAlive: true
     },
     component: () =>
         import ('@/views/goods/HdkChannel.vue')

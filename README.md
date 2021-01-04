@@ -116,3 +116,12 @@ module.exports = {
     }
 }
 ```
+
+注：`vant` 的配置文件是用 `less` 的
+
+## env 全局变量
+`process.env` 获取环境变量
+- .env 通用环境变量
+- .env.production 生产环境变量
+- .env.development 开发环境变量
+设置之后需要重新运行 `npm run serve`

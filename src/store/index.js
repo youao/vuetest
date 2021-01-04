@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import app from '../config';
 
 Vue.use(Vuex)
 
@@ -15,7 +14,7 @@ const store = new Vuex.Store({
     },
     mutations: {
         setSafeArea(state) {
-            if (app.$mode != 'app') return;
+            if (process.env.VUE_APP_MODE != 'app') return;
             let { top, bottom } = api.safeArea;
             top = top * dpr;
             bottom = bottom * dpr;
