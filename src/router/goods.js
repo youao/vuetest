@@ -1,17 +1,13 @@
 export default [{
     path: '/hdk/detail/:id',
     name: 'HdkDetail',
-    meta: {
-        title: ''
-    },
+    meta: {},
     component: () =>
         import ('@/views/goods/HdkDetail.vue')
 }, {
     path: '/hdk/channel/:id',
     name: 'HdkChannel',
-    meta: {
-        // keepAlive: true
-    },
+    meta: {},
     component: () =>
         import ('@/views/goods/HdkChannel.vue')
 }, {

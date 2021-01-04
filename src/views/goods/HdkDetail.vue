@@ -83,6 +83,11 @@
       />
     </div>
 
+    <div v-show="list.length">
+      <div class="tj-title">宝贝推荐</div>
+      <water-fall :list="list" contpl="hdk" />
+    </div>
+
     <div class="row fixed-foot fmix-center" @click="getCoupon">
       立即领券购买
     </div>
@@ -90,11 +95,15 @@
 </template>
 
 <script>
-import { getHdkDetail, getHdkClick } from "@/api/hdk";
+import { getHdkDetail, getHdkClick, getHdkList } from "@/api/hdk";
 import { formatTime } from "@/utils";
+import WaterFall from "@/components/WaterFall";
 
 export default {
   name: "HdkDetail",
+  components: {
+    WaterFall,
+  },
   data() {
     return {
       id: "",
@@ -113,6 +122,7 @@ export default {
         },
         0: {
           text: "-",
+          cls: ""
         },
         1: {
           text: "升",
@@ -120,6 +130,7 @@ export default {
         },
       },
       conW: 750,
+      list: [],
     };
   },
   mounted: function () {
@@ -140,6 +151,8 @@ export default {
         data.couponendtime = formatTime(data.couponendtime * 1000);
         this.goods = data;
         this.shop = data.shop_score;
+
+        this.getLikeGoods();
       });
     },
 
@@ -153,13 +166,23 @@ export default {
         window.open(this.couponUrl);
       });
     },
+
+    getLikeGoods() {
+      // get_similar_info
+      getHdkList({
+        method: "get_similar_info",
+        id: this.id,
+      }).then((res) => {
+        this.list = res.data;
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
 .container::after {
-  content: '';
+  content: "";
   display: block;
   height: 5rem;
 }
@@ -295,5 +318,11 @@ export default {
   z-index: 99;
   border-radius: 2.2rem;
   box-shadow: 0 0.2rem 0.2rem rgba(0, 0, 0, 0.3);
+}
+
+.tj-title {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #999;
 }
 </style>
