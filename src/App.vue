@@ -49,4 +49,8 @@ export default {
   position: relative;
   overflow-y: hidden;
 }
+.container {
+  height: 100%;
+  overflow-y: scroll;
+}
 </style>

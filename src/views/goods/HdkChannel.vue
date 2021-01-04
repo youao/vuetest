@@ -268,10 +268,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  height: 100%;
-  overflow-y: scroll;
-}
 .hour {
   color: #999;
   padding-bottom: 0.2rem;

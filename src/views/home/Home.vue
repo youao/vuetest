@@ -168,10 +168,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  height: 100%;
-  overflow-y: scroll;
-}
 .navs {
   padding: 1rem;
   background: #fff;

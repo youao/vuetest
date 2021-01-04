@@ -118,10 +118,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  height: 100%;
-  overflow-y: scroll;
-}
 .search {
   height: 4rem;
   background: #fff;

@@ -158,9 +158,10 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  padding-bottom: 6rem;
-  background: #f5f5f5;
+.container::after {
+  content: '';
+  display: block;
+  height: 5rem;
 }
 .row {
   background-color: #fff;
