@@ -10,7 +10,6 @@ const routes = [{
         name: 'Home',
         meta: {
             title: '首页',
-            footer: true,
             keepAlive: true
         },
         component: () =>
@@ -20,14 +19,9 @@ const routes = [{
     ...goods,
     {
         path: '*',
-        name: 'Home',
-        meta: {
-            title: '首页',
-            footer: true,
-            keepAlive: true
-        },
+        name: 'NotDefined',
         component: () =>
-            import ('@/views/home/Home')
+            import ('@/views/404')
     }
 ];
 
@@ -42,7 +36,7 @@ router.beforeEach((to, from, next) => {
         console.log('app index')
         next('/');
     }
-    document.title = title;
+    title && (document.title = title);
     next();
 });
 

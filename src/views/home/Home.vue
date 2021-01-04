@@ -1,5 +1,11 @@
 <template>
   <div class="container">
+    <div class="search fmix-align">
+      <router-link class="search-bar" to="/goods/search">
+        <i class="iconfont" style="margin-right: 0.4rem; font-size: 1.2em">&#xe8ee;</i>
+        <span>搜搜/领券，购物更省钱</span>
+      </router-link>
+    </div>
     <van-tabs v-model="active" sticky animated swipeable @change="tabChange">
       <van-tab
         v-for="(item, index) in cateList"
@@ -179,6 +185,20 @@ export default {
   p {
     color: #333;
     font-size: 1rem;
+  }
+}
+.search {
+  height: 4rem;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 0 1rem;
+  .search-bar {
+    width: 100%;
+    line-height: 3rem;
+    text-align: center;
+    background: #f5f5f5;
+    border-radius: 0.8rem;
+    color: #999;
   }
 }
 </style>

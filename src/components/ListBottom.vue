@@ -1,6 +1,9 @@
 <template>
   <div>
-    <skeleton-goods v-show="!finished && !size" />
+    <div v-show="!finished && !size">
+      <skeleton-brand v-if="type == 'brand'" />
+      <skeleton-goods v-else />
+    </div>
     <van-loading
       v-show="loading && size"
       :class="['fmix-center']"
@@ -20,16 +23,22 @@ Vue.use(Loading);
 Vue.use(Empty);
 
 import SkeletonGoods from "@/components/skeleton/SkeletonGoods";
+import SkeletonBrand from "@/components/skeleton/SkeletonBrand";
 
 export default {
   name: "ListBottom",
   components: {
     SkeletonGoods,
+    SkeletonBrand,
   },
   props: {
     size: {
       type: Number,
       default: 0,
+    },
+    type: {
+      type: String,
+      default: "",
     },
     loading: {
       type: Boolean,

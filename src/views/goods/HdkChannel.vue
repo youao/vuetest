@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div id="hourlist" v-if="isHour">
+    <div id="hourlist" v-if="list_type == 'hour'">
       <div class="hours flex-wrap">
         <div
           v-for="(item, index) in hourNav"
@@ -24,7 +24,7 @@
       </van-tabs>
     </div>
     <van-tabs
-      v-else-if="!isHour && cateList.length > 1"
+      v-else-if="list_type != 'hour' && cateList.length > 1"
       v-model="active"
       sticky
       animated
@@ -36,11 +36,12 @@
         :key="index"
         :title="item.title"
       >
-        <water-fall :list="item.list" contpl="hdk" />
+        <hdk-brand-list v-if="list_type == 'brand'" :list="item.list" />
+        <water-fall v-else :list="item.list" contpl="hdk" />
       </van-tab>
     </van-tabs>
     <water-fall v-else :list="list" contpl="hdk" />
-    <list-bottom :loading="loading" :finished="finished" :size="list.length" />
+    <list-bottom :loading="loading" :finished="finished" :size="list.length" :type="list_type" />
   </div>
 </template>
 
@@ -48,6 +49,7 @@
 import { getHdkList } from "@/api/hdk";
 import WaterFall from "@/components/WaterFall";
 import ListBottom from "@/components/ListBottom";
+import HdkBrandList from "@/components/goods/HdkBrandList";
 import { getObjItemByKey, evScrollout } from "@/utils";
 import { hdkChannels } from "@/libs/channel";
 
@@ -56,6 +58,7 @@ export default {
   components: {
     WaterFall,
     ListBottom,
+    HdkBrandList,
   },
   data() {
     return {
@@ -89,7 +92,7 @@ export default {
           sub: "加载中",
         },
       ],
-      isHour: false,
+      list_type: "",
     };
   },
   computed: {
@@ -149,11 +152,14 @@ export default {
     const { title, cate } = channel;
     document.title = title;
 
-    this.isHour = id == 15;
-    if (this.isHour) {
+    if (id == 15) {
+      this.list_type = "hour";
       this.active = this.getActiveHour();
       this.setHourSub();
       this.cateList = this.getHourList();
+    } else if (id == 14) {
+      this.list_type = "brand";
+      this.cateList = this.getCateList(cate);
     } else {
       this.cateList = this.getCateList(cate);
     }
@@ -246,9 +252,9 @@ export default {
     setHourSub() {
       this.hourNav = this.hourNav.map((item, index) => {
         let sub = "";
-        if (index < this.hour) {
+        if (index < this.active) {
           sub = "已开抢";
-        } else if (index < this.hour) {
+        } else if (index == this.active) {
           sub = "疯抢中";
         } else {
           sub = "即将开抢";

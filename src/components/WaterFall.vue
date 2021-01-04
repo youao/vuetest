@@ -56,7 +56,7 @@ export default {
   },
   mounted: function () {
     let container = this.$refs.con;
-    let conW = (container || document.body).offsetWidth;
+    let conW = container.offsetWidth || document.body.offsetWidth;
     const { col, space, spaceBetween } = this;
     this.colW = (conW - spaceBetween * 2 - (col - 1) * space) / col;
   },
