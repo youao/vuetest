@@ -1,21 +1,24 @@
 <template>
   <div class="container">
     <van-sticky>
-    <div class="search fmix-align">
-      <div class="search-bar fmix-align">
-        <i class="iconfont" style="margin: 0 0.4rem 0 1rem; font-size: 1.2em"
-          >&#xe8ee;</i
+      <div class="search fmix-align">
+        <div class="search-bar flex-con fmix-align">
+          <i class="iconfont" style="margin: 0 0.4rem 0 1rem; font-size: 1.2em"
+            >&#xe8ee;</i
+          >
+          <van-field
+            class="flex-con"
+            type="text"
+            placeholder="搜搜/领券，购物更省钱"
+            style="color: #333"
+            v-model="params.keyword"
+            clearable
+          />
+        </div>
+        <span class="font-big" style="margin-left: 1rem" @click="toSearch()"
+          >搜索</span
         >
-        <van-field
-          class="flex-con"
-          type="text"
-          placeholder="搜搜/领券，购物更省钱"
-          style="color: #333"
-          v-model="params.keyword"
-          clearable
-        />
       </div>
-    </div>
     </van-sticky>
     <div v-show="params.keyword">
       <water-fall :list="list" contpl="hdk" />
@@ -46,7 +49,7 @@ import { getHdkSearch, getHdkHotKey } from "@/api/hdk";
 import WaterFall from "@/components/WaterFall";
 import ListBottom from "@/components/ListBottom";
 import { evScrollout } from "@/utils";
-import { Field, Sticky } from 'vant';
+import { Field, Sticky } from "vant";
 
 export default {
   name: "GoodsSearch",
