@@ -62,6 +62,10 @@ export default {
   },
   watch: {
     "list.length": function (ln, oln) {
+      if (ln == 0) {
+        this.colHs = [];
+        return;
+      }
       setTimeout(() => {
         this.computeItemPosition(ln, oln);
       }, 500);

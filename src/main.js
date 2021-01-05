@@ -21,8 +21,6 @@ import '@/utils/flexible.js'
 
 Vue.config.productionTip = false
 
-console.log(process.env)
-
 const init = () => {
     new Vue({
         store,

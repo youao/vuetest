@@ -5,22 +5,35 @@ import goods from "./goods";
 
 Vue.use(Router);
 
-const routes = [
+const routes = [{
+        path: '/home',
+        name: 'Home',
+        meta: {
+            keepAlive: true,
+            transitionName: 'fade'
+        },
+        component: () =>
+            import ('@/views/home/Home')
+    },
+    {
+        path: '/',
+        redirect: '/home'
+    },
+    {
+        path: '',
+        redirect: '/home'
+    },
     ...user,
     ...goods,
     {
         path: '*',
-        name: 'Home',
-        meta: {
-            keepAlive: true
-        },
+        name: 'NotDefine',
         component: () =>
-            import ('@/views/home/Home')
+            import ('@/views/404')
     }
 ];
 
 const router = new Router({
-    mode: 'history',
     routes
 });
 

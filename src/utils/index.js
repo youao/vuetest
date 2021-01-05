@@ -8,6 +8,10 @@ export function isiOS() {
     return !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
 }
 
+export function isWeixin() {
+    return u.toLowerCase().match(/MicroMessenger/i) == "micromessenger";
+}
+
 export function isPc() {
     const mobiles = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
     for (const m of mobiles) {
@@ -100,7 +104,7 @@ export function evScrollout(options) {
     var isWinow = !element || element.nodeType != 1;
     var elListener = isWinow ? window : element;
 
-    var threshold = isNaN(threshold) ? 0 : threshold;
+    var threshold = isNaN(threshold) ? 50 : threshold;
 
     element = isWinow ? (document.documentElement || document.body) : element;
 
@@ -115,4 +119,14 @@ export function evScrollout(options) {
             options.callback();
         }
     })
+}
+
+export function openUrl(url) {
+    if (process.env.VUE_APP_MODE == 'h5') {
+        if (isWeixin()) {
+
+        } else {
+            window.open(url);
+        }
+    }
 }

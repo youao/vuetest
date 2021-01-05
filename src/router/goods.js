@@ -14,7 +14,8 @@ export default [{
     path: '/goods/search',
     name: 'GoodsSearch',
     meta: {
-        keepAlive: true
+        keepAlive: true,
+        transitionName: 'fade'
     },
     component: () =>
         import ('@/views/goods/GoodsSearch.vue')

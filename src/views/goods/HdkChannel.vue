@@ -108,7 +108,7 @@ export default {
       let { cid, page, pageSize } = this.activeItem;
       let { method, type } = this.channel;
       let hour = 0;
-      if (this.isHour) {
+      if (this.list_type == 'hour') {
         hour = this.hourNav[this.active].hour;
       }
       return {

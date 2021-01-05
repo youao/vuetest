@@ -1,7 +1,5 @@
-const env = process.env.NODE_ENV;
-
 module.exports = {
-    publicPath: env == 'production' ? '' : '/',
+    publicPath: process.env.VUE_APP_PUBLICPATH,
     chainWebpack: config => {
         const oneOfsMap = config.module.rule('scss').oneOfs.store
         oneOfsMap.forEach(item => {

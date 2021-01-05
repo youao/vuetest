@@ -1,7 +1,7 @@
 <template>
-  <router-link :to="'/hdk/detail/' + item.itemid" class="goods">
+  <div class="goods" @click="toHdkDetail(item.itemid)">
     <div class="goods-img" :style="{ height: colW + 'px' }">
-      <van-image fit="contain" lazy-load :src="item.itempic" />
+      <van-image fit="contain" width="100%" lazy-load :src="item.itempic+'_300x300.jpg'" />
       <i v-if="item.videoid > 0" class="iconfont v-play">&#xe614;</i>
     </div>
     <div class="goods-info">
@@ -35,7 +35,7 @@
         <span class="sale">{{ item.itemsale }}人已付款</span>
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
@@ -62,7 +62,11 @@ export default {
     this.item.itemsale = getWanNum(this.item.itemsale);
   },
   mounted() {},
-  methods: {},
+  methods: {
+    toHdkDetail(id) {
+      this.$router.push("/hdk/detail/" + id);
+    },
+  },
 };
 </script>
 

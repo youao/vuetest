@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" ref="container">
     <van-swipe
       :autoplay="3000"
       indicator-color="white"
@@ -11,12 +11,22 @@
     </van-swipe>
 
     <div class="row top">
-      <div class="cell">
+      <div class="fmix-align title-jhs" v-if="goods.activity_type == '聚划算'">
+        <div class="cell flex-con">
+          <span
+            >￥<span class="strong">{{ goods.itemendprice }}</span></span
+          >
+          <span>券后</span>
+          <span style="margin-left: 1rem">原价￥{{ goods.itemprice }}</span>
+        </div>
+        <i class="iconfont">&#xe603;</i>
+      </div>
+      <div class="cell" v-else>
         <span class="font-red"
           >￥<span class="strong">{{ goods.itemendprice }}</span></span
         >
         <span>券后</span>
-        <span class="font-gray-tint" style="margin-left: 10px"
+        <span class="font-gray-tint" style="margin-left: 1rem"
           >原价￥{{ goods.itemprice }}</span
         >
       </div>
@@ -122,7 +132,7 @@ export default {
         },
         0: {
           text: "-",
-          cls: ""
+          cls: "",
         },
         1: {
           text: "升",
@@ -134,12 +144,20 @@ export default {
     };
   },
   mounted: function () {
-    let el = document.querySelector(".container");
-    this.conW = el.offsetWidth;
+    this.conW = this.$refs.container.offsetWidth;
 
     let id = this.$route.params.id;
     this.id = id;
     this.getDetail(id);
+  },
+  watch: {
+    $route(to) {
+      let id = to.params.id;
+      this.id = id;
+      this.list = [];
+      this.getDetail(id);
+      this.$refs.container.scrollTo({ top: 0, behavior: "smooth" });
+    },
   },
   methods: {
     getDetail(id) {
@@ -180,7 +198,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .container::after {
   content: "";
   display: block;
@@ -217,7 +235,7 @@ export default {
 
 .coupon {
   background-color: #fde9ea;
-  margin: 1.5rem 0 1rem;
+  margin: 0.5rem 0 1rem;
   padding: 1.2rem 0;
   border-radius: 0.8rem;
   overflow: hidden;
@@ -324,5 +342,24 @@ export default {
   font-size: 1.2rem;
   text-align: center;
   color: #999;
+}
+
+.title-jhs {
+  background: -webkit-linear-gradient(left, #fbf695 80%, #fbec80);
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+
+  .cell {
+    padding: 1.5rem;
+    padding-right: 0;
+    background: -webkit-linear-gradient(left, #fd015f, #f90331);
+    color: #fff;
+  }
+  .iconfont {
+    color: #fc002b;
+    font-size: 2.4rem;
+    padding: 0 1.5rem;
+  }
 }
 </style>
