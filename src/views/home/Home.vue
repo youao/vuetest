@@ -2,7 +2,9 @@
   <div class="container">
     <div class="search fmix-align">
       <router-link class="search-bar" to="/goods/search">
-        <i class="iconfont" style="margin-right: 0.4rem; font-size: 1.2em">&#xe8ee;</i>
+        <i class="iconfont" style="margin-right: 0.4rem; font-size: 1.2em"
+          >&#xe8ee;</i
+        >
         <span>搜搜/领券，购物更省钱</span>
       </router-link>
     </div>
@@ -12,17 +14,25 @@
         :key="index"
         :title="item.title"
       >
-        <div v-if="active == 0 && adnavs.length" class="navs flex-wrap">
-          <router-link
-            class="nav fmix-center-v"
-            v-for="(item, index) in adnavs"
-            :key="index"
-            :to="item.path"
-          >
-            <img :src="item.img" alt="" />
-            <p>{{ item.title }}</p>
-          </router-link>
+        <div v-if="active == 0">
+          <van-swipe :autoplay="3000" indicator-color="white">
+            <van-swipe-item v-for="(item, index) in banners" :key="index">
+              <img :src="item.img" @click="tapBanner(item.url)" />
+            </van-swipe-item>
+          </van-swipe>
+          <div v-if="adnavs.length" class="navs flex-wrap">
+            <router-link
+              class="nav fmix-center-v"
+              v-for="(item, index) in adnavs"
+              :key="index"
+              :to="item.path"
+            >
+              <img :src="item.img" alt="" />
+              <p>{{ item.title }}</p>
+            </router-link>
+          </div>
         </div>
+
         <water-fall :list="item.list" contpl="hdk" />
       </van-tab>
     </van-tabs>
@@ -36,6 +46,8 @@ import WaterFall from "@/components/WaterFall";
 import ListBottom from "@/components/ListBottom";
 import { evScrollout } from "@/utils";
 import { cates } from "@/libs/cate";
+import { Swipe, SwipeItem } from "vant";
+import { openUrl } from "@/utils";
 
 let cateList = cates.map((item, index) => {
   return {
@@ -59,6 +71,20 @@ export default {
     return {
       active: 0,
       cateList,
+      banners: [
+        {
+          img: "http://img01.xiaoxishengqian.com/app/img/banner/elm.jpg",
+          url: "taobao://s.click.ele.me/6Kd8Wsu",
+        },
+        {
+          img: "http://img01.xiaoxishengqian.com/app/img/banner/newyear.jpg",
+          url: "taobao://s.click.taobao.com/LDPHWsu",
+        },
+        {
+          img: "http://img01.xiaoxishengqian.com/app/img/banner/juhuasuan.jpg",
+          url: "taobao://s.click.taobao.com/jMmPRsu",
+        },
+      ],
       adnavs: [
         {
           img:
@@ -162,6 +188,9 @@ export default {
       if (page == 1 && !finished) {
         this.getList();
       }
+    },
+    tapBanner(url) {
+      openUrl(url);
     },
   },
 };
