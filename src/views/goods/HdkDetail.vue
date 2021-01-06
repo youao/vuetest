@@ -106,7 +106,7 @@
 
 <script>
 import { getHdkDetail, getHdkClick, getHdkList } from "@/api/hdk";
-import { formatTime } from "@/utils";
+import { formatTime, openUrl } from "@/utils";
 import WaterFall from "@/components/WaterFall";
 
 export default {
@@ -177,16 +177,15 @@ export default {
     getCoupon() {
       let gid = this.id;
       if (this.couponUrl) {
-        return window.open(this.couponUrl);
+        return openUrl(this.couponUrl);
       }
       getHdkClick(gid).then((res) => {
         this.couponUrl = res.data.coupon_click_url;
-        window.open(this.couponUrl);
+        openUrl(this.couponUrl);
       });
     },
 
     getLikeGoods() {
-      // get_similar_info
       getHdkList({
         method: "get_similar_info",
         id: this.id,

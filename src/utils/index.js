@@ -1,3 +1,4 @@
+import $router from '../router';
 const u = navigator.userAgent;
 
 export function isAndroid() {
@@ -124,7 +125,7 @@ export function evScrollout(options) {
 export function openUrl(url) {
     if (process.env.VUE_APP_MODE == 'h5') {
         if (isWeixin()) {
-
+            $router.push('/wxjump?url=' + url)
         } else {
             window.open(url);
         }

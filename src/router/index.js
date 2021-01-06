@@ -26,10 +26,16 @@ const routes = [{
     ...user,
     ...goods,
     {
+        path: '/wxjump',
+        name: 'WeixinJump',
+        component: () =>
+            import ('@/views/utils/WeixinJump')
+    },
+    {
         path: '*',
         name: 'NotDefine',
         component: () =>
-            import ('@/views/404')
+            import ('@/views/utils/404')
     }
 ];
 
