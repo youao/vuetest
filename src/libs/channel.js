@@ -103,31 +103,7 @@ const hdkChannels = [{
         title: "大额神券",
         method: "tb_items_material_data",
         type: 2,
-    },
-    {
-        id: 18,
-        title: "9.9",
-        method: "tb_items_material_data",
-        type: 3,
-    },
-    {
-        id: 19,
-        title: "时尚女装",
-        method: "tb_items_material_data",
-        type: 4,
-    },
-    {
-        id: 20,
-        title: "潮流男装",
-        method: "tb_items_material_data",
-        type: 5,
-    },
-    {
-        id: 21,
-        title: "精致潮鞋",
-        method: "tb_items_material_data",
-        type: 6,
-    },
+    }
 ];
 export {
     hdkChannels

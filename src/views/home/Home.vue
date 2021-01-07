@@ -15,22 +15,27 @@
         :title="item.title"
       >
         <div v-if="active == 0">
-          <van-swipe :autoplay="3000" indicator-color="white">
-            <van-swipe-item v-for="(item, index) in banners" :key="index">
-              <img :src="item.img" @click="tapBanner(item.url)" />
-            </van-swipe-item>
-          </van-swipe>
           <div v-if="adnavs.length" class="navs flex-wrap">
-            <router-link
+            <div
               class="nav fmix-center-v"
               v-for="(item, index) in adnavs"
               :key="index"
-              :to="item.path"
+              @click="$url(item.url)"
             >
               <img :src="item.img" alt="" />
               <p>{{ item.title }}</p>
-            </router-link>
+            </div>
           </div>
+          <van-swipe
+            v-if="banners.length"
+            :autoplay="5000"
+            indicator-color="white"
+            class="banner"
+          >
+            <van-swipe-item v-for="(item, index) in banners" :key="index">
+              <img :src="item.img" @click="$url(item.url)" />
+            </van-swipe-item>
+          </van-swipe>
         </div>
 
         <water-fall :list="item.list" contpl="hdk" />
@@ -42,24 +47,12 @@
 
 <script>
 import { getHdkList } from "@/api/hdk";
+import { getHome } from "@/api/site";
+
 import WaterFall from "@/components/WaterFall";
 import ListBottom from "@/components/ListBottom";
 import { evScrollout } from "@/utils";
-import { cates } from "@/libs/cate";
-import { Swipe, SwipeItem } from "vant";
-import { openUrl } from "@/utils";
-
-let cateList = cates.map((item, index) => {
-  return {
-    title: item,
-    cid: index,
-    page: 1,
-    pageSize: 10,
-    list: [],
-    loading: false,
-    finished: false,
-  };
-});
+import { cateList } from "@/libs/cate";
 
 export default {
   name: "Home",
@@ -70,53 +63,9 @@ export default {
   data() {
     return {
       active: 0,
-      cateList,
-      banners: [
-        {
-          img: "http://img01.xiaoxishengqian.com/app/img/banner/elm.jpg",
-          url: "taobao://s.click.ele.me/6Kd8Wsu",
-        },
-        {
-          img: "http://img01.xiaoxishengqian.com/app/img/banner/newyear.jpg",
-          url: "taobao://s.click.taobao.com/LDPHWsu",
-        },
-        {
-          img: "http://img01.xiaoxishengqian.com/app/img/banner/juhuasuan.jpg",
-          url: "taobao://s.click.taobao.com/jMmPRsu",
-        },
-      ],
-      adnavs: [
-        {
-          img:
-            "https://funimg.pddpic.com/brand/jinbao/miaosha.png?imageView2/2/w/1300/q/80/format/webp",
-          title: "限时秒杀",
-          path: "/hdk/channel/15",
-        },
-        {
-          img:
-            "https://funimg.pddpic.com/brand/jinbao/qingcang.png?imageView2/2/w/1300/q/80/format/webp",
-          title: "品牌特惠",
-          path: "/hdk/channel/14",
-        },
-        {
-          img:
-            "https://funimg.pddpic.com/brand/jinbao/baokuan.png?imageView2/2/w/1300/q/80/format/webp",
-          title: "爆款好货",
-          path: "/hdk/channel/2",
-        },
-        {
-          img:
-            "https://funimg.pddpic.com/brand/jinbao/temai.png?imageView2/2/w/1300/q/80/format/webp",
-          title: "9块9特卖",
-          path: "/hdk/channel/9",
-        },
-        {
-          img:
-            "https://funimg.pddpic.com/brand/jinbao/lingquan.png?imageView2/2/w/1300/q/80/format/webp",
-          title: "大额神券",
-          path: "/hdk/channel/17",
-        },
-      ],
+      cateList: cateList(),
+      banners: [],
+      adnavs: [],
     };
   },
   computed: {
@@ -163,6 +112,7 @@ export default {
     },
   },
   mounted() {
+    this.getHomeData();
     this.getList();
     evScrollout({
       element: ".container",
@@ -172,6 +122,13 @@ export default {
     });
   },
   methods: {
+    getHomeData() {
+      getHome().then((res) => {
+        const { banner, nav } = res.data;
+        this.banners = banner;
+        this.adnavs = nav;
+      });
+    },
     getList() {
       if (this.loading || this.finished) return;
       this.loading = true;
@@ -189,14 +146,15 @@ export default {
         this.getList();
       }
     },
-    tapBanner(url) {
-      openUrl(url);
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.banner {
+  margin: 0.6rem;
+  border-radius: 1rem;
+}
 .navs {
   padding: 1rem;
   background: #fff;

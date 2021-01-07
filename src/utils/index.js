@@ -1,4 +1,5 @@
 import $router from '../router';
+const $mode = process.env.VUE_APP_MODE;
 const u = navigator.userAgent;
 
 export function isAndroid() {
@@ -123,11 +124,27 @@ export function evScrollout(options) {
 }
 
 export function openUrl(url) {
-    if (process.env.VUE_APP_MODE == 'h5') {
+    if ($mode == 'h5') {
         if (isWeixin()) {
             $router.push('/wxjump?url=' + url)
         } else {
             window.open(url);
         }
+    }
+}
+
+export function urlHandler(url) {
+    if (typeof url != 'string') return console.warn('err: url参数不对');
+
+    let arr = url.split('=');
+    switch (arr[0]) {
+        case 'page':
+            $router.push(arr[1]);
+            break;
+        case 'url':
+            openUrl(arr[1]);
+            break;
+        default:
+            console.warn('err: url参数不对');
     }
 }

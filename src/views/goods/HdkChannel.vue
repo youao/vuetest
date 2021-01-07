@@ -1,19 +1,21 @@
 <template>
   <div class="container">
     <div id="hourlist" v-if="list_type == 'hour'">
-      <div class="hours flex-wrap">
-        <div
-          v-for="(item, index) in hourNav"
-          :key="index"
-          class="hour flex-con fmix-center-v"
-          :class="active == index ? 'active' : ''"
-          @click="hourClick(index)"
-        >
-          <p class="title">{{ item.title }}:00</p>
-          <p class="sub">{{ item.sub }}</p>
+      <van-sticky>
+        <div class="hours flex-wrap">
+          <div
+            v-for="(item, index) in hourNav"
+            :key="index"
+            class="hour flex-con fmix-center-v"
+            :class="active == index ? 'active' : ''"
+            @click="hourClick(index)"
+          >
+            <p class="title">{{ item.title }}</p>
+            <p class="sub">{{ item.sub || "加载中" }}</p>
+          </div>
         </div>
-      </div>
-      <van-tabs v-model="active" animated swipeable @change="hourChange">
+      </van-sticky>
+      <van-tabs v-model="active" animated swipeable @change="cateChange">
         <van-tab
           v-for="(item, index) in cateList"
           :title="item.title"
@@ -41,7 +43,12 @@
       </van-tab>
     </van-tabs>
     <water-fall v-else :list="list" contpl="hdk" />
-    <list-bottom :loading="loading" :finished="finished" :size="list.length" :type="list_type" />
+    <list-bottom
+      :loading="loading"
+      :finished="finished"
+      :size="list.length"
+      :type="list_type"
+    />
   </div>
 </template>
 
@@ -52,6 +59,7 @@ import ListBottom from "@/components/ListBottom";
 import HdkBrandList from "@/components/goods/HdkBrandList";
 import { getObjItemByKey, evScrollout } from "@/utils";
 import { hdkChannels } from "@/libs/channel";
+import { cates_hour, cateList, HourData } from "@/libs/cate";
 
 export default {
   name: "HdkChannel",
@@ -65,33 +73,7 @@ export default {
       channel: {},
       active: 0,
       cateList: [],
-      hourNav: [
-        {
-          hour: 6,
-          title: 0,
-          sub: "加载中",
-        },
-        {
-          hour: 7,
-          title: 10,
-          sub: "加载中",
-        },
-        {
-          hour: 8,
-          title: 12,
-          sub: "加载中",
-        },
-        {
-          hour: 9,
-          title: 15,
-          sub: "加载中",
-        },
-        {
-          hour: 10,
-          title: 20,
-          sub: "加载中",
-        },
-      ],
+      hourNav: cates_hour,
       list_type: "",
     };
   },
@@ -108,7 +90,7 @@ export default {
       let { cid, page, pageSize } = this.activeItem;
       let { method, type } = this.channel;
       let hour = 0;
-      if (this.list_type == 'hour') {
+      if (this.list_type == "hour") {
         hour = this.hourNav[this.active].hour;
       }
       return {
@@ -149,20 +131,19 @@ export default {
     let { id } = this.$route.params;
     let channel = getObjItemByKey(hdkChannels, "id", id);
     if (!channel) return;
-    const { title, cate } = channel;
+    let { title, cate } = channel;
     document.title = title;
 
     if (id == 15) {
       this.list_type = "hour";
-      this.active = this.getActiveHour();
-      this.setHourSub();
-      this.cateList = this.getHourList();
+      let hd = new HourData();
+      this.active = hd.active;
+      this.hourNav = hd.cates;
+      cate = hd.cates;
     } else if (id == 14) {
       this.list_type = "brand";
-      this.cateList = this.getCateList(cate);
-    } else {
-      this.cateList = this.getCateList(cate);
     }
+    this.cateList = cateList(cate || 1, this.list_type);
 
     this.$set(this, "channel", channel);
   },
@@ -193,81 +174,18 @@ export default {
         this.getList();
       }
     },
-    getCateList(cate) {
-      return cate
-        ? cate.map((item, index) => {
-            return {
-              title: item,
-              cid: index,
-              page: 1,
-              pageSize: 10,
-              list: [],
-              loading: false,
-              finished: false,
-            };
-          })
-        : [
-            {
-              page: 1,
-              pageSize: 10,
-              list: [],
-              loading: false,
-              finished: false,
-            },
-          ];
-    },
     hourClick(e) {
       this.active = e;
-      this.hourChange();
-    },
-    hourChange() {
-      let { page, finished } = this.activeItem;
-      if (page == 1 && !finished) {
-        this.getList();
-      }
-    },
-    getHourList() {
-      return this.hourNav.map((item) => {
-        return {
-          title: "" + item.title,
-          page: 1,
-          pageSize: 10,
-          list: [],
-          loading: false,
-          finished: false,
-        };
-      });
-    },
-    getActiveHour() {
-      const h = new Date().getHours();
-      const hours = this.hourNav;
-      const ln = hours.length;
-      for (let i = 1; i < ln; i++) {
-        if (h < hours[i].title && h >= hours[i - 1].title) {
-          return i - 1;
-        }
-      }
-      return ln - 1;
-    },
-    setHourSub() {
-      this.hourNav = this.hourNav.map((item, index) => {
-        let sub = "";
-        if (index < this.active) {
-          sub = "已开抢";
-        } else if (index == this.active) {
-          sub = "疯抢中";
-        } else {
-          sub = "即将开抢";
-        }
-        item.sub = sub;
-        return item;
-      });
+      this.cateChange();
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.hours {
+  background: #f5f5f5;
+}
 .hour {
   color: #999;
   padding-bottom: 0.2rem;

@@ -21,6 +21,10 @@ import '@/utils/flexible.js'
 
 Vue.config.productionTip = false
 
+import { urlHandler } from './utils';
+Vue.prototype.$url = urlHandler;
+Vue.prototype.$mode = process.env.VUE_APP_MODE;
+
 const init = () => {
     new Vue({
         store,
