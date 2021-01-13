@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" ref="container">
     <van-sticky>
       <div class="search fmix-align">
         <div class="search-bar flex-con fmix-align">
@@ -18,6 +18,24 @@
         <span class="font-big" style="margin-left: 1rem" @click="toSearch()"
           >搜索</span
         >
+      </div>
+      <div v-show="params.keyword" class="fmix-align-sa sx-bar">
+        <span
+          v-for="(item, index) in sx_nav"
+          :key="index"
+          :class="item.order == params.order ? 'active' : ''"
+          @click="tapSXOrder(item.order)"
+          >{{ item.name }}</span
+        >
+        <span class="fmix-align">
+          含券
+          <van-switch
+            v-model="params.is_coupon"
+            active-color="#e83b47"
+            style="margin-left: 0.4rem"
+            @change="couponSwitch"
+          />
+        </span>
       </div>
     </van-sticky>
     <div v-show="params.keyword">
@@ -40,6 +58,25 @@
           >
         </div>
       </div>
+      <div class="block">
+        <div class="title fmix-align-sb">
+          <span>历史搜索</span>
+          <span @click="clearLogs()">
+            <i class="iconfont">&#xe674;</i>清除
+          </span>
+        </div>
+        <div class="tips">
+          <span v-for="(item, index) in logsHistory" :key="index">
+            <span @click="toSearch(item)">{{ item }}</span>
+            <i
+              class="iconfont font-gray-tint font-small"
+              style="margin-left: 0.4rem"
+              @click="delLog(index)"
+              >&#xe6cc;</i
+            >
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -50,6 +87,9 @@ import WaterFall from "@/components/WaterFall";
 import ListBottom from "@/components/ListBottom";
 import { evScrollout } from "@/utils";
 import { Field, Sticky } from "vant";
+import { SearchHistory } from "@/libs/search";
+
+const sh = new SearchHistory();
 
 export default {
   name: "GoodsSearch",
@@ -60,23 +100,48 @@ export default {
   data() {
     return {
       active: 0,
+      sx_nav: [
+        {
+          name: "综合",
+          order: 0,
+        },
+        {
+          name: "销量",
+          order: 2,
+        },
+        {
+          name: "价格",
+          order: 4,
+        },
+      ],
       list: [],
       params: {
         keyword: "",
+        order: 0,
         page: 1,
         pageSize: 10,
+        is_coupon: true,
       },
       loading: false,
       finished: false,
       listShow: false,
       logsHot: [],
+      logsHistory: sh.get(),
     };
+  },
+  watch: {
+    "params.keyword"(newVal) {
+      this.timer && clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.toSearch(newVal);
+      }, 500);
+    },
   },
   mounted() {
     this.getHotKeys();
     this.toSearch();
     evScrollout({
-      element: ".container",
+      element: this.$refs.container,
       callback: () => {
         this.params.keyword && this.getList();
       },
@@ -86,8 +151,16 @@ export default {
     toSearch(k) {
       if (k) {
         this.params.keyword = k;
+        this.logsHistory = sh.add(k);
       }
       this.params.keyword && this.getList(1);
+    },
+    tapSXOrder(order) {
+      this.params.order = order;
+      this.toSearch();
+    },
+    couponSwitch(e) {
+      this.toSearch();
     },
     getHotKeys() {
       getHdkHotKey().then((res) => {
@@ -113,6 +186,12 @@ export default {
         this.params.page++;
       });
     },
+    delLog(index) {
+      this.logsHistory = sh.del(index);
+    },
+    clearLogs() {
+      this.logsHistory = sh.clear();
+    },
   },
 };
 </script>
@@ -132,6 +211,18 @@ export default {
     color: #999;
   }
 }
+.sx-bar {
+  height: 3rem;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  span {
+    color: #666;
+  }
+  span.active {
+    color: #333;
+    font-weight: bold;
+  }
+}
 .block {
   padding: 1rem;
   background: #fff;
@@ -139,7 +230,7 @@ export default {
     font-size: 1.2rem;
     color: #999;
   }
-  .tips span {
+  .tips > span {
     padding: 0.4rem 1rem;
     margin-right: 0.6rem;
     margin-top: 0.6rem;
