@@ -144,6 +144,7 @@ export default {
     };
   },
   mounted: function () {
+    console.log(this.$url)
     this.conW = this.$refs.container.offsetWidth;
 
     let id = this.$route.params.id;

@@ -136,6 +136,10 @@ export function openUrl(url) {
 export function urlHandler(url) {
     if (typeof url != 'string') return console.warn('err: url参数不对');
 
+    if (url.indexOf('http' == 0)) {
+        return openUrl(url);
+    }
+
     let arr = url.split('=');
     switch (arr[0]) {
         case 'page':
